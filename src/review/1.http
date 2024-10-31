@@ -1,0 +1,43 @@
+### Create a new review
+POST http://localhost:3000/review
+Content-Type: application/json
+
+{
+    "reviewname": "Hyvää kaljaa 23perkele",
+    "reviewRating": 2,
+    "imageUrl": "http://example.com/image.jpg",
+    "id_user": 13
+}
+
+### Create a new review
+POST  http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+    "password": "xxx",
+    "email": "xxx",
+    "role": "admin"
+}
+
+### Get all reviews
+GET http://localhost:3000/review
+
+### Get one dood reviews
+GET http://localhost:3000/review/user/13
+
+### Get a single review by ID
+GET http://localhost:3000/review/8
+
+### Update a review
+PUT http://localhost:3000/review/
+Content-Type: application/json
+
+{
+    "reviewname": "Updated Review Name",
+    "reviewRating": 4,
+    "imageUrl": "http://example.com/new-image.jpg",
+    "userId": 8
+}
+
+### Delete a review
+DELETE http://localhost:3000/review/1

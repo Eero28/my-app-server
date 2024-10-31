@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+nestapp:
+  container_name: nestapp
+  image: kantonen/nestapp:1.0.0
+  build: .
+  ports:
+    - 3000:3000
+  enviroment:
+    - DB_TYPE=postgres
+    - PG_HOST=db
+    - PG_USER=postgres
+    - PG_PASSWORD=
