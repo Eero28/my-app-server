@@ -24,13 +24,13 @@ Content-Type: application/json
 GET http://localhost:3000/review
 
 ### Get one dood reviews
-GET http://localhost:3000/review/user/1
+GET http://localhost:3000/review/user/4
 
 ### Get a single review by ID
 GET http://localhost:3000/review/1
 
 ###
-GET http://localhost:3000/users/1
+GET http://localhost:3000/users/4
 
 ### Update a review
 PUT http://localhost:3000/review/
@@ -48,7 +48,7 @@ DELETE http://localhost:3000/review/1
 
 
 ### Get with category
-GET http://localhost:3000/review/users/1/reviews?category=beer
+GET http://localhost:3000/review/users/4/reviews?category=beer
 
 
 

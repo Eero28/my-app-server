@@ -14,24 +14,24 @@ export class ReviewService {
 
         @InjectRepository(User)
         private userRepository: Repository<User>
-    ) {}
+    ) { }
 
     async create(createReviewDto: CreateReviewDto): Promise<Review> {
         const user = await this.userRepository.findOne({
             where: { id_user: createReviewDto.id_user }
         });
-        
+
         if (!user) {
             throw new NotFoundException(`User with ID ${createReviewDto.id_user} not found`);
         }
-    
-       
+
+
         const review = this.reviewRepository.create({
             ...createReviewDto,
             user,
         });
-    
-        
+
+
         return this.reviewRepository.save(review);
     }
 
@@ -40,44 +40,45 @@ export class ReviewService {
     }
 
     async findAllByUserId(id_user: number): Promise<Review[]> {
-        const userReviews = await this.reviewRepository.find({
-            where: { user: { id_user } }, 
-            relations: ['user'], 
-        });
-    
-        if (userReviews.length === 0) {
-            throw new NotFoundException(`No reviews found for user with ID ${id_user}`);
+
+        if (!id_user) {
+            throw new Error("No id found!")
         }
-        console.log("omat")
+        const userReviews = await this.reviewRepository.find({
+            where: { user: { id_user } },
+            relations: ['user'],
+        });
+
+        if (userReviews.length === 0) {
+            return [];
+        }
+
         return userReviews;
     }
-    
+
     async findAllByUserIdWithCategory(id_user: number, category?: string): Promise<Review[]> {
         let userReviews;
 
-      
         if (category) {
-          userReviews = await this.reviewRepository.find({
-            where: { user: { id_user }, category: category },
-            relations: ['user'],
-          });
+            userReviews = await this.reviewRepository.find({
+                where: { user: { id_user }, category: category },
+                relations: ['user'],
+            });
         } else {
-          userReviews = await this.reviewRepository.find({
-            where: { user: { id_user } },
-            relations: ['user'],
-          });
+            userReviews = await this.reviewRepository.find({
+                where: { user: { id_user } },
+                relations: ['user'],
+            });
         }
-      
+
         if (userReviews.length === 0) {
-          throw new NotFoundException(`No reviews found for user with ID ${id_user}`);
+            return []; 
         }
-        console.log("category")
-      
         return userReviews;
-      }
-      
-    
-    
+    }
+
+
+
 
     async findOne(id_review: number): Promise<Review> {
         const review = await this.reviewRepository.findOne({
@@ -92,7 +93,7 @@ export class ReviewService {
         return review;
     }
 
-    async update(id_review: number, updateReviewDto: UpdateReviewDto): Promise<Review>{
+    async update(id_review: number, updateReviewDto: UpdateReviewDto): Promise<Review> {
         const review = await this.reviewRepository.findOne({ where: { id_review } });
         if (!review) {
             throw new NotFoundException(`Review with ID ${id_review} not found`);
@@ -112,6 +113,6 @@ export class ReviewService {
         } catch (error) {
             throw new Error(`Error deleting review: ${error.message}`);
         }
-        
+
     }
 }
