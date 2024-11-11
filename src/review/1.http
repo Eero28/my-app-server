@@ -3,10 +3,11 @@ POST http://localhost:3000/review
 Content-Type: application/json
 
 {
-    "reviewname": "Hyvää kaljaa 23perkele",
-    "reviewRating": 2,
+    "reviewname": "Viini on hyvää",
+    "reviewRating": 4,
+    "category": "x",
     "imageUrl": "http://example.com/image.jpg",
-    "id_user": 13
+    "id_user": 1
 }
 
 ### Create a new review
@@ -14,19 +15,22 @@ POST  http://localhost:3000/users/register
 Content-Type: application/json
 
 {
-    "password": "xxx",
-    "email": "xxx",
-    "role": "admin"
+    "password": "S",
+    "email": "S",
+    "username": "Eero"
 }
 
 ### Get all reviews
 GET http://localhost:3000/review
 
 ### Get one dood reviews
-GET http://localhost:3000/review/user/13
+GET http://localhost:3000/review/user/1
 
 ### Get a single review by ID
-GET http://localhost:3000/review/8
+GET http://localhost:3000/review/1
+
+###
+GET http://localhost:3000/users/1
 
 ### Update a review
 PUT http://localhost:3000/review/
@@ -41,3 +45,13 @@ Content-Type: application/json
 
 ### Delete a review
 DELETE http://localhost:3000/review/1
+
+
+### Get with category
+GET http://localhost:3000/review/users/1/reviews?category=beer
+
+
+
+
+
+

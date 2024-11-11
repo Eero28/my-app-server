@@ -10,6 +10,9 @@ export class Review {
 
     @Column()
     reviewname: string
+    
+    @Column()
+    reviewDescription: string
 
     @Column()
     reviewRating: number
@@ -17,6 +20,8 @@ export class Review {
     @Column()
     imageUrl: string
 
+    @Column()
+    category: string
 
     @CreateDateColumn()
     createdAt: Date;

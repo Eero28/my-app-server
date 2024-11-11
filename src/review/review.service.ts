@@ -17,23 +17,21 @@ export class ReviewService {
     ) {}
 
     async create(createReviewDto: CreateReviewDto): Promise<Review> {
-        // Find the user by ID
         const user = await this.userRepository.findOne({
             where: { id_user: createReviewDto.id_user }
         });
         
-        // Throw an error if the user is not found
         if (!user) {
             throw new NotFoundException(`User with ID ${createReviewDto.id_user} not found`);
         }
     
-        // Create a new review with the user associated
+       
         const review = this.reviewRepository.create({
             ...createReviewDto,
-            user, // Associate the user
+            user,
         });
     
-        // Save and return the review
+        
         return this.reviewRepository.save(review);
     }
 
@@ -43,17 +41,41 @@ export class ReviewService {
 
     async findAllByUserId(id_user: number): Promise<Review[]> {
         const userReviews = await this.reviewRepository.find({
-            where: { user: { id_user } }, // Adjust based on your User entity relationship
-            relations: ['user'], // Include user data in the response
+            where: { user: { id_user } }, 
+            relations: ['user'], 
         });
     
         if (userReviews.length === 0) {
             throw new NotFoundException(`No reviews found for user with ID ${id_user}`);
         }
-    
+        console.log("omat")
         return userReviews;
     }
     
+    async findAllByUserIdWithCategory(id_user: number, category?: string): Promise<Review[]> {
+        let userReviews;
+
+      
+        if (category) {
+          userReviews = await this.reviewRepository.find({
+            where: { user: { id_user }, category: category },
+            relations: ['user'],
+          });
+        } else {
+          userReviews = await this.reviewRepository.find({
+            where: { user: { id_user } },
+            relations: ['user'],
+          });
+        }
+      
+        if (userReviews.length === 0) {
+          throw new NotFoundException(`No reviews found for user with ID ${id_user}`);
+        }
+        console.log("category")
+      
+        return userReviews;
+      }
+      
     
     
 
@@ -81,9 +103,15 @@ export class ReviewService {
     }
 
     async remove(id_review: number): Promise<void> {
-        const result = await this.reviewRepository.delete(id_review);
-        if (result.affected === 0) {
-            throw new NotFoundException(`Review with ID ${id_review} not found`);
+        console.log(id_review)
+        try {
+            const result = await this.reviewRepository.delete(id_review);
+            if (result.affected === 0) {
+                throw new NotFoundException(`Review with ID ${id_review} not found`);
+            }
+        } catch (error) {
+            throw new Error(`Error deleting review: ${error.message}`);
         }
+        
     }
 }

@@ -1,9 +1,11 @@
-import { IsNotEmpty, IsString, IsNumber, IsUrl, Min, Max } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsUrl, Min, Max, IsIn, isString } from 'class-validator';
 
 export class CreateReviewDto {
     @IsString()
     @IsNotEmpty()
     reviewname: string;
+
+    reviewDescription: string;
 
     @IsNumber()
     @Min(1)
@@ -12,5 +14,8 @@ export class CreateReviewDto {
 
     imageUrl: string;
 
-    id_user: number;  // Assuming you want to pass the user's ID when creating a review
+    @IsIn(['softdrink', 'wine', 'beer'], { message: 'Category must be one of: softdrink, wine, beer' })
+    category: string;
+
+    id_user: number; 
 }

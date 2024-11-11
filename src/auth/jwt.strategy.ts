@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: process.env.JWT_SECRET, // Your JWT secret from environment variables
+            secretOrKey: process.env.JWT_SECRET, 
         });
     }
 
@@ -20,6 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         if (!user) {
             throw new Error("Not validated");
         }
-        return user; // Return the user object for use in request
+        return user; 
     }
 }
